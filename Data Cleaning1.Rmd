@@ -1,0 +1,83 @@
+---
+title: "Data Cleaning"
+author: "LANGAT ERICK"
+date: "2023-12-28"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Cleaning
+
+```{r}
+#Explore
+#Claen
+#Manipulate
+#Describe & Summarize
+#Visualiaze
+#Analyze
+```
+
+```{r}
+#install libraries
+suppressPackageStartupMessages(library(tidyverse))
+View(starwars)
+data1=starwars
+# write.csv(data1, file = "starwars.csv")
+```
+
+```{r}
+#variables types
+glimpse(starwars)
+
+class(starwars$gender)
+unique(starwars$gender)
+
+starwars$gender <- as.factor(starwars$gender)
+class(starwars$gender)
+levels(starwars$gender) 
+starwars$gender <- factor((starwars$gender), levels = c("masculine", 'feminine'))#changinging level arrangement
+ 
+
+#select variables
+starwars %>%  select(name, height, ends_with("color")) %>% 
+        names()
+
+#filter observation
+unique(starwars$hair_color)
+starwars %>%  select(name, height, ends_with("color")) %>% 
+        filter(hair_color %in% c("blond","brown") & height<180)
+
+#missing data
+mean(starwars$height, na.rm = TRUE)
+
+starwars %>%  select(name, gender, hair_color, height)
+
+starwars %>%  select(name, gender, hair_color, height) %>% 
+     na.omit()
+
+starwars %>%  select(name, gender, hair_color, height) %>% 
+   filter(complete.cases(.))
+
+starwars %>%  select(name, gender, hair_color, height) %>% 
+   filter(!complete.cases(.))
+
+
+starwars %>%  select(name, gender, hair_color, height) %>% 
+   filter(!complete.cases(.)) %>%  drop_na(height)
+
+starwars %>%  select(name, gender, hair_color, height) %>%  
+  drop_na(height)
+
+starwars %>%  select(name, gender, hair_color, height) %>% 
+   filter(!complete.cases(.)) %>%  mutate(hair_color= replace_na(hair_color, 'none'))
+
+#Recoding Variables
+
+starwars %>%  select(name, gender) %>% 
+      mutate(gender= recode(gender, 'masculine'=1, 'feminine'=2))
+```
